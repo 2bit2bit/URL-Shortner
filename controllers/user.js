@@ -1,6 +1,9 @@
 const { validationResult } = require("express-validator");
 const random = require("random-string-alphanumeric-generator");
 const dns = require("node:dns");
+const QRCode = require("qrcode");
+const cloudinary = require("cloudinary").v2;
+let streamifier = require("streamifier");
 
 const Url = require("../models/url");
 const User = require("../models/user");
@@ -47,16 +50,37 @@ exports.create = async (req, res, next) => {
       } while (await Url.findOne({ shortId: url.shortId }));
     }
 
+    //generate qr code and upload it to cloudinary
     if (generateQR) {
-      //generate qr code
-      //add qr code to db
-      //return short url and qr code?
-      url.qrCode = "qr code";
-    }
+      const qr = await QRCode.toDataURL(req.get("host") + "/" + url.shortId);
 
-    await url.save();
-    user.urls.push(url);
-    await user.save();
+      let uploadFromBuffer = (req) => {
+        return new Promise((resolve, reject) => {
+          let cld_upload_stream = cloudinary.uploader.upload_stream(
+            {
+              folder: "URL-Shortner",
+            },
+            (error, result) => {
+              if (result) {
+                resolve(result);
+              } else {
+                reject(error);
+              }
+            }
+          );
+
+          streamifier
+            .createReadStream(Buffer.from(qr.split(",")[1], "base64"))
+            .pipe(cld_upload_stream);
+        });
+      };
+
+      const result = await uploadFromBuffer(qr);
+      url.qrCode = result.url;
+    }
+    // await url.save();
+    // user.urls.push(url);
+    // await user.save();
     res.json({
       message: "Url created",
       urlId: url._id,
