@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
+  urls: [{ type: mongoose.Schema.Types.ObjectId, ref: "Url" }],
 });
 
 userSchema.pre("save", async function (next) {
