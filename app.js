@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
+const device = require('express-device')
 
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scissors";
@@ -22,6 +23,7 @@ const visitRoutes = require("./routes/visitRoute");
 
 app.use(cors());
 app.use(express.json());
+app.use(device.capture())
 
 // app.use('/', (req, res, next) => {}); Redirect to front end
 app.use("/", visitRoutes);

@@ -6,6 +6,15 @@ const urlSchema = new mongoose.Schema(
     redirectUrl: String,
     shortId: String,
     qrCode: String,
+    clicks: { type: Number, default: 0 },
+    analytics: [
+      {
+        country: String,
+        device: String,
+        referrer: String,
+        time: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );
