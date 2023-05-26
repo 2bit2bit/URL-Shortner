@@ -14,7 +14,10 @@ router.post(
 );
 
 //get urls
-//get url
+router.get("/url", userController.getUrls);
+
+router.get("/url/:urlId", userController.getUrl);
+
 //modify shorturl
 //delete shorturl
 

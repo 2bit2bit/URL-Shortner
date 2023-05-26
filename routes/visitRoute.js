@@ -7,6 +7,10 @@ require("dotenv").config();
 
 const ipinfo = new IPinfoWrapper(process.env.IPINFO_API_KEY);
 
+router.get("/", async (req, res, next) => {
+  res.send("redirect to front end home page");
+});
+
 router.get("/:shortId", async (req, res, next) => {
   try {
     const shortId = req.params.shortId;
@@ -35,5 +39,3 @@ router.get("/:shortId", async (req, res, next) => {
 });
 
 module.exports = router;
-
-<a href="http://localhost:8080/ycxXPk">yeae</a>;

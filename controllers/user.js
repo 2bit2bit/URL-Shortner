@@ -95,3 +95,34 @@ exports.create = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getUrls = async (req, res, next) => {
+  const userId = req.userId;
+
+  try {
+    const urls = await User.findById(userId);
+    res.json({ urls: urls.urls });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.getUrl = async (req, res, next) => {
+  const userId = req.userId;
+  const urlId = req.params.urlId;
+  try {
+    const url = await Url.findOne({ _id: urlId, userId: userId });
+    if (!url) {
+      return res.json({ message: "Url not found" });
+    }
+    res.json({ url: url });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
