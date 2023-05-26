@@ -78,9 +78,9 @@ exports.create = async (req, res, next) => {
       const result = await uploadFromBuffer(qr);
       url.qrCode = result.url;
     }
-    // await url.save();
-    // user.urls.push(url);
-    // await user.save();
+    await url.save();
+    user.urls.push(url);
+    await user.save();
     res.json({
       message: "Url created",
       urlId: url._id,

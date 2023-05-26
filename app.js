@@ -18,12 +18,16 @@ const app = express();
 const authRoutes = require("./routes/auth");
 const isAuth = require("./middleware/is-auth");
 const userRoutes = require("./routes/user");
+const visitRoutes = require("./routes/visitRoute");
 
 app.use(cors());
 app.use(express.json());
 
+// app.use('/', (req, res, next) => {}); Redirect to front end
+app.use("/", visitRoutes);
 app.use("/auth", authRoutes);
 app.use("/user", isAuth, userRoutes);
+
 
 app.use((error, req, res, next) => {
   console.log(error);
