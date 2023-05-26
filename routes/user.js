@@ -13,12 +13,14 @@ router.post(
   userController.create
 );
 
-//get urls
 router.get("/url", userController.getUrls);
 
 router.get("/url/:urlId", userController.getUrl);
 
 //modify shorturl
+router.put("/url/:urlId", userController.modifyUrl); 
+
 //delete shorturl
+router.delete("/url/:urlId", userController.deleteUrl);
 
 module.exports = router;

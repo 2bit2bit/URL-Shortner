@@ -28,7 +28,7 @@ router.get("/:shortId", async (req, res, next) => {
     analytics.device = req.device.type;
     url.clicks++;
     url.analytics.push(analytics);
-    // url.save();
+    url.save();
 
     res.redirect("https:" + url.redirectUrl);
   } catch (err) {

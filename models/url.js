@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const urlSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    label: String,
     redirectUrl: String,
     shortId: String,
     qrCode: String,

@@ -8,6 +8,27 @@ let streamifier = require("streamifier");
 const Url = require("../models/url");
 const User = require("../models/user");
 
+let uploadFromBuffer = (qr) => {
+  return new Promise((resolve, reject) => {
+    let cld_upload_stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "URL-Shortner",
+      },
+      (error, result) => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject(error);
+        }
+      }
+    );
+
+    streamifier
+      .createReadStream(Buffer.from(qr.split(",")[1], "base64"))
+      .pipe(cld_upload_stream);
+  });
+};
+
 exports.create = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -19,10 +40,10 @@ exports.create = async (req, res, next) => {
     }
 
     const userId = req.userId;
-    const { redirectUrl, customUrl, generateQR } = req.body;
+    const { redirectUrl, customUrl, generateQR, label } = req.body;
 
     // if user already created a short url for this redirect url return that
-    const user = await User.findById(userId).populate("urls");
+    const user = await User.findById(userId);
     const urlExist = user.urls.find((url) => url.redirectUrl === redirectUrl);
     if (urlExist) {
       return res.json({
@@ -31,12 +52,17 @@ exports.create = async (req, res, next) => {
         shortId: urlExist.shortId,
         qrCode: urlExist.qrCode,
         redirectUrl: urlExist.redirectUrl,
+        label: urlExist.label,
       });
     }
 
     await dns.promises.lookup(redirectUrl, { all: true }); //validate url
 
-    const url = new Url({ redirectUrl: redirectUrl, userId: userId });
+    const url = new Url({
+      redirectUrl: redirectUrl,
+      userId: userId,
+      label: label,
+    });
     //if custom url is provided check if it exists in db and if it does throw error else add it to db
     if (customUrl) {
       if (await Url.findOne({ shortId: customUrl })) {
@@ -53,28 +79,6 @@ exports.create = async (req, res, next) => {
     //generate qr code and upload it to cloudinary
     if (generateQR) {
       const qr = await QRCode.toDataURL(req.get("host") + "/" + url.shortId);
-
-      let uploadFromBuffer = (req) => {
-        return new Promise((resolve, reject) => {
-          let cld_upload_stream = cloudinary.uploader.upload_stream(
-            {
-              folder: "URL-Shortner",
-            },
-            (error, result) => {
-              if (result) {
-                resolve(result);
-              } else {
-                reject(error);
-              }
-            }
-          );
-
-          streamifier
-            .createReadStream(Buffer.from(qr.split(",")[1], "base64"))
-            .pipe(cld_upload_stream);
-        });
-      };
-
       const result = await uploadFromBuffer(qr);
       url.qrCode = result.url;
     }
@@ -84,6 +88,7 @@ exports.create = async (req, res, next) => {
     res.json({
       message: "Url created",
       urlId: url._id,
+      label: url.label,
       shortId: url.shortId,
       qrCode: url.qrCode,
       redirectUrl: url.redirectUrl,
@@ -119,6 +124,91 @@ exports.getUrl = async (req, res, next) => {
       return res.json({ message: "Url not found" });
     }
     res.json({ url: url });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.modifyUrl = async (req, res, next) => {
+  const userId = req.userId;
+  const urlId = req.params.urlId;
+  try {
+    const url = await Url.findOne({ _id: urlId, userId: userId });
+    if (!url) {
+      return res.json({ message: "Url not found" });
+    }
+
+    const { redirectUrl, customUrl, generateQR, label } = req.body;
+
+    if (redirectUrl) {
+      await dns.promises.lookup(redirectUrl, { all: true }); //validate url
+      url.redirectUrl = redirectUrl;
+    }
+
+    if (customUrl) {
+      const customUrlExist = await Url.findOne({ shortId: customUrl });
+      if (customUrlExist && customUrlExist._id.toString() !== urlId) {
+        return res.json({ message: "Custom url already exists" });
+      }
+      url.shortId = customUrl;
+
+      if (url.qrCode) {
+        await cloudinary.uploader.destroy(
+          "URL-Shortner/" + url.qrCode.split("/")[8].split(".")[0]
+        );
+
+        url.qrCode = "";
+      }
+      if (generateQR) {
+        const qr = await QRCode.toDataURL(req.get("host") + "/" + url.shortId);
+        const result = await uploadFromBuffer(qr);
+        url.qrCode = result.url;
+      }
+    }
+
+    if (label) {
+      url.label = label;
+    }
+
+    await url.save();
+    res.json({
+      message: "Url Updated",
+      urlId: url._id,
+      shortId: url.shortId,
+      label: url.label,
+      qrCode: url.qrCode,
+      redirectUrl: url.redirectUrl,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+exports.deleteUrl = async (req, res, next) => {
+  const userId = req.userId;
+  const urlId = req.params.urlId;
+  try {
+    const url = await Url.findOneAndDelete({ _id: urlId, userId: userId });
+    if (!url) {
+      return res.json({ message: "Url not found" });
+    }
+
+    const user = await User.findById(userId);
+    user.urls.pull(urlId);
+
+    if (url.qrCode) {
+      await cloudinary.uploader.destroy(
+        "URL-Shortner/" + url.qrCode.split("/")[8].split(".")[0]
+      );
+    }
+    await user.save();
+    res.json({ message: "Url deleted" });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
