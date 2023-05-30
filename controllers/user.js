@@ -29,7 +29,7 @@ let uploadFromBuffer = (qr) => {
   });
 };
 
-exports.create = async (req, res, next) => {
+exports.createUrl = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

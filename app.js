@@ -25,7 +25,6 @@ app.use(cors());
 app.use(express.json());
 app.use(device.capture())
 
-// app.use('/', (req, res, next) => {}); Redirect to front end
 app.use("/", visitRoutes);
 app.use("/auth", authRoutes);
 app.use("/user", isAuth, userRoutes);

@@ -7,20 +7,65 @@ const userController = require("../controllers/user");
 //create shorturl
 router.post(
   "/create",
-  [body("redirectUrl").trim().escape().isURL().withMessage("Please enter a valid url"),
-   body("customUrl").optional().trim().escape().isAlphanumeric().withMessage("Please enter a valid custom url")
-   .isLength({min: 3, max: 10}).withMessage("Custom url must be between 3 and 10 characters long")],
-  userController.create
+  [
+    body("redirectUrl")
+      .trim()
+      .escape()
+      .isURL()
+      .withMessage("Please enter a valid url"),
+    body("customUrl")
+      .optional()
+      .trim()
+      .escape()
+      .isAlphanumeric()
+      .withMessage("Please enter a valid custom url")
+      .isLength({ min: 3, max: 10 })
+      .withMessage("Custom url must be between 3 and 10 characters long"),
+    body("label")
+      .optional()
+      .escape()
+      .trim()
+      .isAlphanumeric()
+      .withMessage("Please enter a Label")
+      .isLength({ min: 3, max: 10 })
+      .withMessage("Label must be between 3 and 15 characters long"),
+  ],
+  userController.createUrl
 );
 
 router.get("/url", userController.getUrls);
 
 router.get("/url/:urlId", userController.getUrl);
 
-//modify shorturl
-router.put("/url/:urlId", userController.modifyUrl); 
+router.put(
+  "/url/:urlId",
+  [
+    body("redirectUrl")
+      .optional()
+      .trim()
+      .escape()
+      .isURL()
+      .withMessage("Please enter a valid url"),
+    body("customUrl")
+      .optional()
+      .trim()
+      .escape()
+      .isAlphanumeric()
+      .withMessage("Please enter a valid custom url")
+      .isLength({ min: 3, max: 10 })
+      .withMessage("Custom url must be between 3 and 10 characters long"),
+    body("label")
+      .optional()
+      .escape()
+      .trim()
+      .isAlphanumeric()
+      .withMessage("Please enter a Label")
+      .isLength({ min: 3, max: 10 })
+      .withMessage("Label must be between 3 and 15 characters long"),
+  ],
+  userController.modifyUrl
+);
 
-//delete shorturl
 router.delete("/url/:urlId", userController.deleteUrl);
 
 module.exports = router;

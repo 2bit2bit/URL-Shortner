@@ -1,7 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 
-module.exports = async (req, res, next) => {
-  try {
+module.exports = (req, res, next) => {
     if (!req.get("Authorization")) {
       const error = new Error("Not authenticated");
       error.statusCode = 401;
@@ -9,30 +8,24 @@ module.exports = async (req, res, next) => {
     }
     const token = req.get("Authorization").split(" ")[1];
 
-    let decodedToken = jsonwebtoken.verify(
-      token,
-      process.env.JWT_SECRET,
-      (err, decodedToken) => {
-        if (err) {
-          err.statusCode = 500;
-          throw err;
-        }
-        return decodedToken;
+    let decodedToken;
+
+    try {
+      decodedToken = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      if (err) {
+        err.statusCode = 500;
+        throw err;
       }
-    );
+    }
 
     if (!decodedToken) {
       const error = new Error("Not authenticated");
       error.statusCode = 401;
       throw error;
     }
+    
 
     req.userId = decodedToken.userId;
     next();
-  } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  }
-};
+  } 

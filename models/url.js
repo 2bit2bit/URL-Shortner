@@ -2,12 +2,22 @@ const mongoose = require("mongoose");
 
 const urlSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     label: String,
-    redirectUrl: String,
-    shortId: String,
+    redirectUrl: {
+      type: String,
+      required: true,
+    },
+    shortId: {
+      type: String,
+      required: true,
+    },
     qrCode: String,
-    clicks: { type: Number, default: 0 },
+    clicks: { type: Number, default: 0, required: true },
     analytics: [
       {
         country: String,
