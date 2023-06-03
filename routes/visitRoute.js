@@ -27,7 +27,7 @@ router.get("/:shortId", async (req, res, next) => {
 
     if (!url) {
       const error = new Error("url not found");
-      error.statusCode = 422;
+      error.statusCode = 401;
       throw error;
     }
 
@@ -46,8 +46,10 @@ router.get("/:shortId", async (req, res, next) => {
     url.analytics.push(analytics);
     url.save();
   } catch (err) {
-    const error = new Error(err);
-    next(error);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
 });
 

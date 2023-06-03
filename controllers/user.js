@@ -4,6 +4,7 @@ const dns = require("node:dns");
 const QRCode = require("qrcode");
 const cloudinary = require("cloudinary").v2;
 let streamifier = require("streamifier");
+const Cache = require("../config/redis");
 
 const Url = require("../models/url");
 const User = require("../models/user");
@@ -85,6 +86,7 @@ exports.createUrl = async (req, res, next) => {
     await url.save();
     user.urls.push(url);
     await user.save();
+
     res.json({
       message: "Url created",
       urlId: url._id,
@@ -102,11 +104,62 @@ exports.createUrl = async (req, res, next) => {
 };
 
 exports.getUrls = async (req, res, next) => {
-  const userId = req.userId;
-
   try {
-    const urls = await User.findById(userId);
-    res.json({ urls: urls.urls });
+    const userId = req.userId;
+    const { query } = req;
+
+    const {
+      created_at,
+      label,
+      order = "asc",
+      order_by = "created_at",
+      page = 0,
+      per_page = 10,
+    } = query;
+
+    const cacheKey = `Urls:${userId}:${created_at}:${label}:${order}:${order_by}:${page}:${per_page}`;
+
+    const cachedUrls = await Cache.redis.get(cacheKey);
+
+    if (cachedUrls) {
+      // Cache hit
+      return res.json({ Urls: JSON.parse(cachedUrls) });
+    }
+
+    const findQuery = { userId: userId };
+
+    if (created_at) {
+      findQuery.created_at = {
+        $gt: moment(created_at).startOf("day").toDate(),
+        $lt: moment(created_at).endOf("day").toDate(),
+      };
+    }
+
+    if (label) {
+      findQuery.label = label;
+    }
+
+    const sortQuery = {};
+
+    const sortAttributes = order_by.split(",");
+
+    for (const attribute of sortAttributes) {
+      if (order === "asc" && order_by) {
+        sortQuery[attribute] = 1;
+      }
+
+      if (order === "desc" && order_by) {
+        sortQuery[attribute] = -1;
+      }
+    }
+
+    const urls = await Url.find(findQuery)
+      .sort(sortQuery)
+      .skip(page)
+      .limit(per_page);
+
+    Cache.redis.setEx(cacheKey, 5 * 60, JSON.stringify(urls));
+    res.json({ Urls: urls });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -119,10 +172,20 @@ exports.getUrl = async (req, res, next) => {
   const userId = req.userId;
   const urlId = req.params.urlId;
   try {
+    const cacheKey = `Url:${userId}:${urlId}`;
+    const cachedUrl = await Cache.redis.get(cacheKey);
+
+    if (cachedUrl) {
+      return res.json({ url: JSON.parse(cachedUrl) });
+    }
+
     const url = await Url.findOne({ _id: urlId, userId: userId });
     if (!url) {
       return res.json({ message: "Url not found" });
     }
+
+    Cache.redis.setEx(cacheKey, 3 * 60, JSON.stringify(url));
+
     res.json({ url: url });
   } catch (err) {
     if (!err.statusCode) {
