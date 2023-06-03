@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
-const device = require('express-device')
+const device = require("express-device");
+const Cache = require("./config/redis");
 
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scissors";
@@ -23,12 +24,11 @@ const visitRoutes = require("./routes/visitRoute");
 
 app.use(cors());
 app.use(express.json());
-app.use(device.capture())
+app.use(device.capture());
 
 app.use("/", visitRoutes);
 app.use("/auth", authRoutes);
 app.use("/user", isAuth, userRoutes);
-
 
 app.use((error, req, res, next) => {
   console.log(error);
@@ -42,6 +42,7 @@ mongoose
   .connect(MONGODB_URI)
   .then(() => {
     console.log("Connected to database");
+    Cache.connect();
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
