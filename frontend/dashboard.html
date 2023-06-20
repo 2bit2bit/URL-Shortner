@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/main-mobile.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+    <title>Scissors</title>
+  </head>
+  <body>
+    <div class="mobile-nav">
+      <button class="mobile-nav_close">X</button>
+      <nav>
+        <ul>
+          <li><a href="#  ">Home</a></li>
+          <li><a href="#">Dashboard</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">Login</a></li>
+          <li><a class="sign-up" href="#">Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+    <header>
+      <a href="/index.html"><img src="img/logo.png" alt="logo" /><br /></a>
+
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Dashboard</a></li>
+        </ul>
+        <ul>
+          <li><a href="#">Login</a></li>
+          <li><a class="sign-up" href="#">Sign Up</a></li>
+        </ul>
+      </nav>
+      <div class="mobile-nav_toggle">
+        <button class="mobile-nav_toggle-btn">
+          <img src="img/menu.svg" alt="" />
+        </button>
+      </div>
+    </header>
+    <main>
+      <h2>Dashboard</h2>
+      <a class="create-url" href="">Create Short URL</a>
+
+      <section>
+        <form class="search-filter" action="" method="get">
+          <input type="text" placeholder="Search" />
+          <label for="sort">Sort by:</label>
+
+          <select name="sort" id="sort" form="search">
+            <option value="volvo">Date Created</option>
+            <option value="saab">Number of clicks</option>
+          </select>
+
+          <label for="asc">Asc</label>
+          <input type="radio" id="asc" name="order" value="asc" />
+          <label for="desc">Desc</label>
+          <input type="radio" id="desc" name="order" value="desc" />
+          <button id="search-btn" type="submit">Search</button>
+        </form>
+      </section>
+
+      <section>
+        <ul class="url-list">
+          <a href="#">
+            <li>
+              <div>
+                <h4>label</h4>
+                <h4>short url</h4>
+              </div>
+              <div>
+                <span class="date">Date: 12/23/23</span>
+                <span class="date">clicks: 3032</span>
+              </div>
+            </li>
+          </a>
+          <a href="#">
+            <li>
+              <div>
+                <h4>label</h4>
+                <h4>short url</h4>
+              </div>
+              <div>
+                <span class="date">Date: 12/23/23</span>
+                <span class="date">clicks: 3032</span>
+              </div>
+            </li>
+          </a>
+          <a href="#">
+            <li>
+              <div>
+                <h4>label</h4>
+                <h4>short url</h4>
+              </div>
+              <div>
+                <span class="date">Date: 12/23/23</span>
+                <span class="date">clicks: 3032</span>
+              </div>
+            </li>
+          </a>
+        </ul>
+      </section>
+    </main>
+    <footer>
+      <a href="https://github.com/2bit2bit/URL-Shortner">Github repo</a>
+    </footer>
+    <script src="js/main.js"></script>
+  </body>
+</html>

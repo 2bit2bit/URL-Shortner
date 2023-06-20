@@ -1,0 +1,92 @@
+.create-url {
+  background-color: #da6201;
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  margin: 2rem 0;
+  display: block;
+  width: 16rem;
+  text-align: center;
+}
+
+.create-url:hover,
+.create-url:active {
+  background-color: #a84c00;
+  box-shadow: 0px 2px 5px #0000003b;
+}
+
+.search-filter {
+  padding: 0.5rem 1rem;
+  box-shadow: 0px 2px 5px 4px #0000003b;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-filter label {
+  color: rgb(53, 53, 53);
+}
+
+.search-filter input,
+.search-filter select {
+  padding: 8px;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  font-size: medium;
+  margin: 8px 0;
+  border: 1px solid #da630160;
+}
+#search-btn {
+  padding: 1rem 1.5rem;
+  border: none;
+  box-shadow: 0px 0px 5px #00000011;
+  border-radius: 8px;
+  border: 1px solid #da6201;
+  font-weight: bold;
+}
+
+form button:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.url-list {
+  list-style-type: none;
+  border-right: 1px solid #ffd8b8;
+  border-left: 1px solid #ffd8b8;
+  padding: 1rem;
+}
+
+.url-list a {
+  color: rgb(53, 53, 53);
+  text-decoration: none;
+}
+.url-list li {
+  padding: 12px;
+  display: block;
+  box-shadow: 0px 0px 5px #0000005d;
+  border-radius: 8px;
+  margin: 1rem;
+}
+
+.url-list li:hover,
+.url-list li:active {
+  box-shadow: 0px 0px 5px #da6201;
+}
+
+.url-list li h4,
+.url-list li span {
+  margin: 6px;
+}
+
+.url-list li div {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 666px) {
+  .search-filter {
+    display: none;
+  }
+}

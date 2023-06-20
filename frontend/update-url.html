@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/main-mobile.css" />
+    <link rel="stylesheet" href="css/sign_up-login.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,7 +14,6 @@
       rel="stylesheet"
     />
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
-
     <title>Scissors</title>
   </head>
   <body>
@@ -50,25 +50,31 @@
       </div>
     </header>
     <main>
-      <h2>WELCOME TO SCISSORS</h2>
-      <div class="cta">
-        <img src="img/logo.png" alt="logo" /><br />
-        <div>
-          <a href="#" class="login">Login</a>
-          <a class="sign-up" href="#">Sign Up</a>
+      <h2>Update Short URL</h2>
+      <form action="" method="post">
+        <div class="field-wrap">
+          <label> Label* </label>
+          <input type="text" required autocomplete="off" />
         </div>
-      </div>
+        <div class="field-wrap">
+          <label> Original Url* </label>
+          <input type="text" required autocomplete="off" />
+        </div>
+        <div class="field-wrap">
+          <label> Cusom URL </label>
+          <input
+            type="text"
+            required
+            autocomplete="off"
+            placeholder="can be blank"
+          />
+        </div>
 
-      <p>
-        Get a short urlaskdanf Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Sequi nostrum aut debitis soluta vitae consequuntur
-        porro corrupti nisi officiis. Aliquid cumque nostrum perferendis
-        voluptas, voluptatem iusto dicta sunt debitis deserunt. Get a short
-        urlaskdanf Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Sequi nostrum aut debitis soluta vitae consequuntur porro corrupti nisi
-        officiis. Aliquid cumque nostrum perferendis voluptas, voluptatem iusto
-        dicta sunt debitis deserunt.
-      </p>
+        QRCode
+        <input type="checkbox" checked />
+
+        <button type="submit">Update</button>
+      </form>
     </main>
     <footer>
       <a href="https://github.com/2bit2bit/URL-Shortner">Github repo</a>

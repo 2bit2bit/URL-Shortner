@@ -1,0 +1,41 @@
+form {
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 1rem;
+  box-shadow: 0px 2px 5px 2px #0000003a;
+}
+
+.field-wrap {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 8px 0px 0px;
+}
+
+.field-wrap label {
+  color: rgb(53, 53, 53);
+}
+
+.field-wrap input {
+  padding: 8px;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  font-size: medium;
+  margin: 8px 0;
+  border: 1px solid #da630160;
+}
+
+form button {
+  width: 100%;
+  margin: 1rem auto;
+  font-size: larger;
+  padding: 1rem;
+  color: white;
+  background-color: #da6201;
+  border: none;
+  box-shadow: 0px 0px 5px #00000041;
+}
+
+form button:hover {
+  background-color: #a84c00;
+}
