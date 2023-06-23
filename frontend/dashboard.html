@@ -17,6 +17,11 @@
     <title>Scissors</title>
   </head>
   <body>
+    <script>
+      if (!document.cookie) {
+        window.location.replace("./login.html");
+      }
+    </script>
     <div class="mobile-nav">
       <button class="mobile-nav_close">X</button>
       <nav>
@@ -51,7 +56,7 @@
     </header>
     <main>
       <h2>Dashboard</h2>
-      <a class="create-url" href="">Create Short URL</a>
+      <a class="create-url" href="./create-url.html">Create Short URL</a>
 
       <section>
         <form class="search-filter" action="" method="get">
@@ -85,30 +90,6 @@
               </div>
             </li>
           </a>
-          <a href="#">
-            <li>
-              <div>
-                <h4>label</h4>
-                <h4>short url</h4>
-              </div>
-              <div>
-                <span class="date">Date: 12/23/23</span>
-                <span class="date">clicks: 3032</span>
-              </div>
-            </li>
-          </a>
-          <a href="#">
-            <li>
-              <div>
-                <h4>label</h4>
-                <h4>short url</h4>
-              </div>
-              <div>
-                <span class="date">Date: 12/23/23</span>
-                <span class="date">clicks: 3032</span>
-              </div>
-            </li>
-          </a>
         </ul>
       </section>
     </main>
@@ -116,5 +97,6 @@
       <a href="https://github.com/2bit2bit/URL-Shortner">Github repo</a>
     </footer>
     <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
   </body>
 </html>

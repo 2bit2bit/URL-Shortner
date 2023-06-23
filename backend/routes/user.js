@@ -14,21 +14,21 @@ router.post(
       .isURL()
       .withMessage("Please enter a valid url"),
     body("customUrl")
-      .optional()
+      .optional({ checkFalsy: true })
       .trim()
       .escape()
       .isAlphanumeric()
       .withMessage("Please enter a valid custom url")
       .isLength({ min: 3, max: 10 })
-      .withMessage("Custom url must be between 3 and 10 characters long"),
+      .withMessage("Custom url must be between 3 to 10 characters long"),
     body("label")
-      .optional()
+      .optional({ checkFalsy: true })
       .escape()
       .trim()
       .isAlphanumeric()
       .withMessage("Please enter a Label")
       .isLength({ min: 3, max: 10 })
-      .withMessage("Label must be between 3 and 15 characters long"),
+      .withMessage("Label must be between 3 to 15 characters long"),
   ],
   userController.createUrl
 );
@@ -41,27 +41,27 @@ router.put(
   "/url/:urlId",
   [
     body("redirectUrl")
-      .optional()
+      .optional({ checkFalsy: true })
       .trim()
       .escape()
       .isURL()
       .withMessage("Please enter a valid url"),
     body("customUrl")
-      .optional()
+      .optional({ checkFalsy: true })
       .trim()
       .escape()
       .isAlphanumeric()
       .withMessage("Please enter a valid custom url")
       .isLength({ min: 3, max: 10 })
-      .withMessage("Custom url must be between 3 and 10 characters long"),
+      .withMessage("Custom url must be between 3 to 10 characters long"),
     body("label")
-      .optional()
+      .optional({ checkFalsy: true })
       .escape()
       .trim()
       .isAlphanumeric()
       .withMessage("Please enter a Label")
       .isLength({ min: 3, max: 10 })
-      .withMessage("Label must be between 3 and 15 characters long"),
+      .withMessage("Label must be between 3 to 15 characters long"),
   ],
   userController.modifyUrl
 );

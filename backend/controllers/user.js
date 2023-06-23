@@ -44,11 +44,13 @@ exports.createUrl = async (req, res, next) => {
     const { redirectUrl, customUrl, generateQR, label } = req.body;
 
     // if user already created a short url for this redirect url return that
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate("urls");
+
     const urlExist = user.urls.find((url) => url.redirectUrl === redirectUrl);
+
     if (urlExist) {
       return res.json({
-        message: "Url already exists",
+        message: "URL already exist",
         urlId: urlExist._id,
         shortId: urlExist.shortId,
         qrCode: urlExist.qrCode,
@@ -96,6 +98,10 @@ exports.createUrl = async (req, res, next) => {
       redirectUrl: url.redirectUrl,
     });
   } catch (err) {
+    if (err.code == "ENOTFOUND") {
+      err.data = [{ msg: "please enter a invalid url" }];
+      err.statusCode = 404;
+    }
     if (!err.statusCode) {
       err.statusCode = 500;
     }
