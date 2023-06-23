@@ -83,6 +83,13 @@
     padding: 1rem;
   }
 
+  .mobile-nav ul li .active {
+    background-color: #da6201;
+    color: white;
+    border-radius: 0;
+    border-bottom: 1px solid white;
+  }
+
   .cta {
     flex-direction: column;
   }

@@ -14,12 +14,15 @@ router.post(
       .custom((value, { req }) => {
         return User.findOne({ email: value }).then((userDoc) => {
           if (userDoc) {
-            return Promise.reject("Email address already exists!");
+            return Promise.reject("Email address already registered! Try login instead");
           }
         });
       })
       .normalizeEmail(),
-    body("password").trim().isLength({ min: 5 }),
+    body("password")
+      .trim()
+      .isLength({ min: 5 })
+      .withMessage("Password must be atleast 5 characters"),
   ],
   authController.signup
 );

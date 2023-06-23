@@ -8,8 +8,7 @@ body {
   font-family: "Rubik", sans-serif;
 }
 
-
-.head{
+.head {
   margin-top: 70px;
 }
 
@@ -52,7 +51,7 @@ header nav ul a {
   text-decoration: none;
   padding: 2rem 1.5rem;
   transition: 0.3s;
-  font-weight:400
+  font-weight: 400;
 }
 
 header nav ul a:hover,
@@ -80,6 +79,13 @@ header nav ul a:active {
   padding: 0.5rem;
   text-decoration: none;
   box-shadow: none;
+}
+
+.active {
+  background-color: #da6201;
+  color: white;
+  border-radius: 0;
+  border-bottom: 1px solid white;
 }
 
 main {
