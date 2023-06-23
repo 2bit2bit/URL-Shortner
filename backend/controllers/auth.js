@@ -21,7 +21,7 @@ exports.signup = async (req, res, next) => {
     });
 
     await user.save();
-    res.status(201).json({ message: "User created"});
+    res.status(201).json({ message: "User created" });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -44,14 +44,17 @@ exports.login = async (req, res, next) => {
 
     const user = await User.findOne({ email: email });
     if (!user) {
-      const error = new Error("User not found");
+      const error = new Error("Validation failed");
+      error.data = [{ msg: "Wrong email or password" }];
       error.statusCode = 401;
       throw error;
     }
 
-    const isEqual = bcrypt.compare(password, user.password);
+    const isEqual = await bcrypt.compare(password, user.password);
+
     if (!isEqual) {
-      const error = new Error("Wrong password");
+      const error = new Error("Validation failed");
+      error.data = [{ msg: "Wrong email or password" }];
       error.statusCode = 401;
       throw error;
     }
@@ -62,7 +65,7 @@ exports.login = async (req, res, next) => {
         userId: user._id.toString(),
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "5h" }
     );
 
     res.status(200).json({

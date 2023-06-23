@@ -2,12 +2,23 @@ const email = document.getElementById("email");
 const password = document.getElementById("psw");
 const signUpBtn = document.getElementById("sign-up_btn");
 const responseErr = document.getElementById("responseErr");
+const loginBtn = document.getElementById("login_btn");
 
-signUpBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-  showLoading();
-  signUp(email.value, password.value);
-});
+if (signUpBtn) {
+  signUpBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    showLoading();
+    signUp(email.value, password.value);
+  });
+}
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    showLoading();
+    login(email.value, password.value);
+  });
+}
 
 async function signUp(email, password) {
   const body = { email, password };
@@ -38,44 +49,46 @@ async function signUp(email, password) {
       }, 2000);
     }
   } catch (err) {
+    
     responseErr.innerText = "Network Error! connect to Internet and Try again";
     responseErr.style.visibility = "visible";
     unshowLoading();
   }
 }
 
-// async function login(email, password) {
-//   const body = { email, password };
+async function login(email, password) {
+  const body = { email, password };
 
-//   try {
-//     const response = await fetch(host + `/auth/login`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(body),
-//     });
+  try {
+    const response = await fetch(host + `/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
-//     const responseStatus = response.status;
-//     const responseData = await response.json();
+    const responseStatus = response.status;
+    const responseData = await response.json();
 
-//     if (responseStatus !== 200) {
-//       responseErr.innerText = responseData.data[0].msg;
-//       responseErr.style.visibility = "visible";
-//       unshowLoading();
-//     } else {
-//       //save token in cookies
-//       responseErr.innerText = "Logging you in...";
-//       responseErr.style.color = "green";
-//       responseErr.style.visibility = "visible";
-//       setTimeout(() => {
-//         unshowLoading();
-//         window.location.replace("./dashboard.html");
-//       }, 2000);
-//     }
-//   } catch (err) {
-//     responseErr.innerText = "Network Error! connect to Internet and Try again";
-//     responseErr.style.visibility = "visible";
-//     unshowLoading();
-//   }
-// }
+    if (responseStatus !== 200) {
+      responseErr.innerText = responseData.data[0].msg;
+      responseErr.style.visibility = "visible";
+      unshowLoading();
+    } else {
+      
+      document.cookie = `token=${responseData.token}`
+      responseErr.innerText = "Logging you in...";
+      responseErr.style.color = "green";
+      responseErr.style.visibility = "visible";
+      setTimeout(() => {
+        unshowLoading();
+        window.location.replace("./dashboard.html");
+      }, 2000);
+    }
+  } catch (err) {
+    responseErr.innerText = "Network Error! connect to Internet and Try again";
+    responseErr.style.visibility = "visible";
+    unshowLoading();
+  }
+}

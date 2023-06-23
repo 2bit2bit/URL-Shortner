@@ -14,7 +14,9 @@ router.post(
       .custom((value, { req }) => {
         return User.findOne({ email: value }).then((userDoc) => {
           if (userDoc) {
-            return Promise.reject("Email address already registered! Try login instead");
+            return Promise.reject(
+              "Email address already registered! Try login instead"
+            );
           }
         });
       })
@@ -34,7 +36,7 @@ router.post(
       .isEmail()
       .withMessage("Please enter a valid email")
       .normalizeEmail(),
-    body("password").trim().isLength({ min: 5 }),
+    body("password").trim().isLength({min:1}).withMessage("password cannot be empty"),
   ],
   authController.login
 );
