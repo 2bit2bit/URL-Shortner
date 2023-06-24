@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+error occur, p<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/main-mobile.css" />
-    <link rel="stylesheet" href="css/sign_up-login.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,40 +22,13 @@
         window.location.replace("./login.html");
       }
     </script>
-    <div
-      id="blackOut"
-      style="
-        display: none;
-        position: absolute;
-        background-color: black;
-        filter: alpha(opacity=70);
-        -moz-opacity: 0.7;
-        opacity: 0.7;
-        z-index: 999;
-        top: 0px;
-        left: 0px;
-        height: 1%;
-        width: 1%;
-        height: 1%;
-      "
-    >
-      <table width="100%" height="100%">
-        <tr>
-          <td align="center" valign="middle">
-            <h2 style="color: White; font-weight: bold">Please wait...</h2>
-            <br />
-          </td>
-        </tr>
-      </table>
-    </div>
-
     <div class="mobile-nav">
       <button class="mobile-nav_close">X</button>
       <nav>
         <ul>
           <li><a href="./index.html">Home</a></li>
           <li>
-            <a class="active" id="dashboardBtnMobile" href="./dashboard.html"
+            <a class="" id="dashboardBtnMobile" href="./dashboard.html"
               >Dashboard</a
             >
           </li>
@@ -78,7 +51,7 @@
         <ul>
           <li><a href="./index.html">Home</a></li>
           <li>
-            <a class="active" id="dashboardBtn" href="./dashboard.html"
+            <a class="" id="dashboardBtn" href="./dashboard.html"
               >Dashboard</a
             >
           </li>
@@ -98,41 +71,13 @@
       </div>
     </header>
     <main>
-      <h2>Create Short URL</h2>
-
-      <form action="" method="post">
-        <span id="responseErr">jejkwkje</span>
-        <div class="field-wrap">
-          <label> Original Url* </label>
-          <input id="originalUrl" type="text" required autocomplete="off" />
-        </div>
-        <div class="field-wrap">
-          <label> Label </label>
-          <input id="label" type="text" required autocomplete="off" />
-        </div>
-        <div class="field-wrap">
-          <label> Custom URL </label>
-          <input
-            id="customUrl"
-            type="text"
-            required
-            autocomplete="off"
-            placeholder="can be blank"
-          />
-        </div>
-
-        QRCode
-        <input id="QRcode" type="checkbox" value="true" checked />
-
-        <button id="create-btn" type="submit">Create</button>
-      </form>
+      <h2>an error occureed try again later...</h2>
     </main>
     <footer>
       <a href="https://github.com/2bit2bit/URL-Shortner">Github repo</a>
     </footer>
-    <script src="js/auth.js"> </script>
+    <script src="js/auth.js"></script>
     <script src="js/main.js"></script>
     <script src="js/loading.js"></script>
-    <script src="js/createUrl.js"></script>
   </body>
 </html>

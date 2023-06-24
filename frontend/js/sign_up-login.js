@@ -49,7 +49,6 @@ async function signUp(email, password) {
       }, 2000);
     }
   } catch (err) {
-    
     responseErr.innerText = "Network Error! connect to Internet and Try again";
     responseErr.style.visibility = "visible";
     unshowLoading();
@@ -76,8 +75,17 @@ async function login(email, password) {
       responseErr.style.visibility = "visible";
       unshowLoading();
     } else {
-      
-      document.cookie = `token=${responseData.token}`
+      // console.log(responseData.token)
+      let now = new Date();
+      let time = now.getTime();
+      time += 3600 * 4000;
+      now.setTime(time);
+      document.cookie =
+        "token=" +
+        responseData.token +
+        "; expires=" +
+        now.toUTCString() +
+        "; path=/";
       responseErr.innerText = "Logging you in...";
       responseErr.style.color = "green";
       responseErr.style.visibility = "visible";

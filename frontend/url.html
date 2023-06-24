@@ -17,30 +17,75 @@
     <title>Scissors</title>
   </head>
   <body>
+    <script>
+      if (!document.cookie) {
+        window.location.replace("./login.html");
+      }
+    </script>
+    <div
+      id="blackOut"
+      style="
+        display: none;
+        position: absolute;
+        background-color: black;
+        filter: alpha(opacity=70);
+        -moz-opacity: 0.7;
+        opacity: 0.7;
+        z-index: 999;
+        top: 0px;
+        left: 0px;
+        height: 1%;
+        width: 1%;
+        height: 1%;
+      "
+    >
+      <table width="100%" height="100%">
+        <tr>
+          <td align="center" valign="middle">
+            <h2 style="color: White; font-weight: bold">Please wait...</h2>
+            <br />
+          </td>
+        </tr>
+      </table>
+    </div>
     <div class="mobile-nav">
       <button class="mobile-nav_close">X</button>
       <nav>
         <ul>
-          <li><a href="#  ">Home</a></li>
-          <li><a href="#">Dashboard</a></li>
+          <li><a href="./index.html">Home</a></li>
+          <li>
+            <a class="" id="dashboardBtnMobile" href="./dashboard.html"
+              >Dashboard</a
+            >
+          </li>
         </ul>
         <ul>
-          <li><a href="#">Login</a></li>
-          <li><a class="sign-up" href="#">Sign Up</a></li>
+          <li><a id="loginBtnMobile" href="./login.html">Login</a></li>
+          <li>
+            <a id="signupBtnMobile" class="sign-up" href="./sign-up.html"
+              >Sign Up</a
+            >
+          </li>
+          <button id="logoutBtnMobile">logout</button>
         </ul>
       </nav>
     </div>
     <header>
-      <a href="/index.html"><img src="img/logo.png" alt="logo" /><br /></a>
+      <a href="./index.html"><img src="./img/logo.png" alt="logo" /><br /></a>
 
       <nav>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Dashboard</a></li>
+          <li><a href="./index.html">Home</a></li>
+          <li>
+            <a class="" id="dashboardBtn" href="./dashboard.html">Dashboard</a>
+          </li>
         </ul>
         <ul>
-          <li><a href="#">Login</a></li>
-          <li><a class="sign-up" href="#">Sign Up</a></li>
+          <li><a id="loginBtn" href="./login.html">Login</a></li>
+          <li>
+            <a id="signupBtn" class="sign-up" href="./sign-up.html">Sign Up</a>
+          </li>
+          <button id="logoutBtn">logout</button>
         </ul>
       </nav>
       <div class="mobile-nav_toggle">
@@ -50,54 +95,49 @@
       </div>
     </header>
     <main>
-      <h2>SHORT URL</h2>
+      <h2 id="shortUrl"></h2>
+      <!-- add copy -->
       <section class="url-details">
         <div>
-          <h3>Label</h3>
-          <h3>Clicks: 200923</h3>
-          <a href="#" class="long-url">long url sjadkjdsdsksjjwkjwekjwkejkjsddsddssdkjaskdjsakjdakjskaj</a><br />
-          <a href="#">Edit</a>
-          <a href="#">Delete</a>
+          <h3 id="label"></h3>
+          <h4>Clicks: <span id="clicks"></span></h4>
+          <a id="longUrl" href="" class="long-url"></a><br />
+          <button
+            id="editBtn"
+            style="
+              max-width: 10rem;
+              padding: 0.5rem;
+              background-color: #da6201;
+              color: white;
+              margin-bottom: 0.5rem;
+            "
+          >
+            Update
+          </button>
+          <button
+            id="deleteBtn"
+            style="
+              max-width: 10rem;
+              padding: 0.5rem;
+              background-color: #da6201;
+              color: white;
+              margin-bottom: 0.5rem;
+            "
+          >
+            Delete
+          </button>
         </div>
-        <a href="http://"
-          ><img src="img/qrcode.png" alt="QRcode" srcset=""
-        /></a>
+        <img id="qrCode" src="" alt="QRcode" />
         <br />
       </section>
-
-      <!-- Table can be switched to a better visual info -->
-      <div class="box-wrap">
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Country</th>
-                <th>device</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Nilu yadav</td>
-                <td>913547589</td>
-                <td>surat</td>
-                <td>active</td>
-              </tr>
-              <tr>
-                <td>Ashwini Gaykwad</td>
-                <td>8800376459</td>
-                <td>chennai</td>
-                <td>active</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </main>
     <footer>
       <a href="https://github.com/2bit2bit/URL-Shortner">Github repo</a>
     </footer>
+    <script src="js/loading.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/main.js"></script>
+
+    <script src="js/url.js"></script>
   </body>
 </html>

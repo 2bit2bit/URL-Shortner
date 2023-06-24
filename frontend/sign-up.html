@@ -13,7 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
     <title>Scissors</title>
   </head>
   <body>
@@ -48,24 +48,28 @@
       <button class="mobile-nav_close">X</button>
       <nav>
         <ul>
-          <li><a href="./index.html">Home</a></li>
+          <li><a  href="./index.html">Home</a></li>
+          <li><a id="dashboardBtnMobile" href="./dashboard.html">Dashboard</a></li>
         </ul>
         <ul>
           <li><a href="./login.html">Login</a></li>
           <li><a class="sign-up active" href="./sign-up.html">Sign Up</a></li>
+          <button id="logoutBtnMobile">logout</button>
         </ul>
       </nav>
     </div>
     <header>
-      <a href="/index.html"><img src="img/logo.png" alt="logo" /><br /></a>
+      <a href="./index.html"><img src="./img/logo.png" alt="logo" /><br /></a>
 
       <nav>
         <ul>
-          <li><a href="./index.html">Home</a></li>
+          <li><a  href="./index.html">Home</a></li>
+          <li><a id="dashboardBtn" href="./dashboard.html">Dashboard</a></li>
         </ul>
         <ul>
           <li><a href="./login.html">Login</a></li>
           <li><a class="sign-up active" href="./sign-up.html">Sign Up</a></li>
+          <button id="logoutBtn">logout</button>
         </ul>
       </nav>
       <div class="mobile-nav_toggle">
@@ -89,13 +93,16 @@
           <input id="psw" type="password" required autocomplete="off" />
         </div>
 
-        <button id="sign-up_btn" type="submit">Get Started</button>
+        <button id="sign-up_btn" type="submit">Sign Up</button>
       </form>
+      Already have an account?
+      <a style="color: #da6201" href="./login.html">click here to login</a>
     </main>
     <footer>
-      <a href="https://github.com/2bit2bit/URL-Shortner">Github repo</a>
+      <a href="https://github.com/2bit2bit/URL-Shortner" target="_blank">Github repo</a>
     </footer>
     <script src="js/main.js"></script>
+    <script src="./js/auth.js"></script>
     <script src="js/loading.js"></script>
     <script src="js/sign_up-login.js"></script>
   </body>

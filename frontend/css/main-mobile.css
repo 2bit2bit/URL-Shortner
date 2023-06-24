@@ -98,4 +98,10 @@
     display: flex;
     flex-direction: column;
   }
+
+  .mobile ul li a.dashboard {
+    display: none
+  }
 }
+
+

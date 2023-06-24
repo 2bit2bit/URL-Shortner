@@ -12,7 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
 
     <title>Scissors</title>
   </head>
@@ -21,26 +21,34 @@
       <button class="mobile-nav_close">X</button>
       <nav>
         <ul>
-          <li><a href="#  ">Home</a></li>
-          <li><a href="#">Dashboard</a></li>
+          <li><a class="active" href="./index.html">Home</a></li>
+          <li>
+            <a id="dashboardBtnMobile" href="./dashboard.html">Dashboard</a>
+          </li>
         </ul>
         <ul>
-          <li><a href="#">Login</a></li>
-          <li><a class="sign-up" href="#">Sign Up</a></li>
+          <li><a id="loginBtnMobile" href="./login.html">Login</a></li>
+          <li>
+            <a class="sign-up signupBtnMobile" href="./sign-up.html">Sign Up</a>
+          </li>
+          <button id="logoutBtnMobile">logout</button>
         </ul>
       </nav>
     </div>
     <header>
-      <a href="/index.html"><img src="img/logo.png" alt="logo" /><br /></a>
+      <a href="./index.html"><img src="./img/logo.png" alt="logo" /><br /></a>
 
       <nav>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Dashboard</a></li>
+          <li><a class="active" href="./index.html">Home</a></li>
+          <li><a id="dashboardBtn" href="./dashboard.html">Dashboard</a></li>
         </ul>
         <ul>
-          <li><a href="#">Login</a></li>
-          <li><a class="sign-up" href="#">Sign Up</a></li>
+          <li><a id="loginBtn" href="./login.html">Login</a></li>
+          <li>
+            <a id="signupBtn" class="sign-up" href="./sign-up.html">Sign Up</a>
+          </li>
+          <button id="logoutBtn">logout</button>
         </ul>
       </nav>
       <div class="mobile-nav_toggle">
@@ -51,13 +59,7 @@
     </header>
     <main>
       <h2>WELCOME TO SCISSORS</h2>
-      <div class="cta">
-        <img src="img/logo.png" alt="logo" /><br />
-        <div>
-          <a href="#" class="login">Login</a>
-          <a class="sign-up" href="#">Sign Up</a>
-        </div>
-      </div>
+      <div class="cta"><img src="img/logo.png" alt="logo" /><br /></div>
 
       <p>
         Get a short urlaskdanf Lorem ipsum dolor sit amet consectetur
@@ -71,8 +73,11 @@
       </p>
     </main>
     <footer>
-      <a href="https://github.com/2bit2bit/URL-Shortner">Github repo</a>
+      <a href="https://github.com/2bit2bit/URL-Shortner" target="_blank"
+        >Github repo</a
+      >
     </footer>
+    <script src="./js/auth.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

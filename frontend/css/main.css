@@ -54,8 +54,7 @@ header nav ul a {
   font-weight: 400;
 }
 
-header nav ul a:hover,
-header nav ul a:active {
+header nav ul a:hover {
   color: whitesmoke;
   background-color: #a84c00;
   text-decoration: none;
@@ -82,7 +81,7 @@ header nav ul a:active {
 }
 
 .active {
-  background-color: #da6201;
+  background-color: #a84c00;
   color: white;
   border-radius: 0;
   border-bottom: 1px solid white;

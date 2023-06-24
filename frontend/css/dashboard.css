@@ -51,18 +51,18 @@ form button:hover {
   background-color: rgb(255, 255, 255);
 }
 
-.url-list {
+#urlList {
   list-style-type: none;
   border-right: 1px solid #ffd8b8;
   border-left: 1px solid #ffd8b8;
   padding: 1rem;
 }
 
-.url-list a {
+#urlList a {
   color: rgb(53, 53, 53);
   text-decoration: none;
 }
-.url-list li {
+#urlList li {
   padding: 12px;
   display: block;
   box-shadow: 0px 0px 5px #0000005d;
@@ -70,17 +70,17 @@ form button:hover {
   margin: 1rem;
 }
 
-.url-list li:hover,
-.url-list li:active {
+#urlList li:hover,
+#urlList li:active {
   box-shadow: 0px 0px 5px #da6201;
 }
 
-.url-list li h4,
-.url-list li span {
+#urlList li h4,
+#urlList li span {
   margin: 6px;
 }
 
-.url-list li div {
+#urlList li div {
   display: flex;
   justify-content: space-between;
 }
