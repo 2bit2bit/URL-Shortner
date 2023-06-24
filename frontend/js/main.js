@@ -1,4 +1,4 @@
-const host = "https://www.scly.live/";
+const host = "https://www.scly.live";
 
 
 const navOpen = document.querySelector(".mobile-nav_toggle-btn");
