@@ -9,7 +9,7 @@ require("dotenv").config();
 const ipinfo = new IPinfoWrapper(process.env.IPINFO_API_KEY);
 
 router.get("/", async (req, res, next) => {
-  res.send("redirect to front end home page");
+  res.redirect("https://url-frontend-xfel.onrender.com");
 });
 
 router.get("/:shortId", async (req, res, next) => {
@@ -20,6 +20,7 @@ router.get("/:shortId", async (req, res, next) => {
     const cachedUrl = await Cache.redis.get(cacheKey);
 
     if (cachedUrl) {
+      console.log("https:" + JSON.parse(cachedUrl));
       res.redirect("https:" + JSON.parse(cachedUrl));
     }
 
@@ -32,13 +33,14 @@ router.get("/:shortId", async (req, res, next) => {
     }
 
     if (!cachedUrl) {
+      console.log(url.redirectUrl);
       res.redirect("https:" + url.redirectUrl);
       Cache.redis.setEx(cacheKey, 3 * 60, JSON.stringify(url.redirectUrl));
     }
 
     const analytics = {};
-    const ipAddress = IP.address(); //update this to use actual ip address
-    analytics.country = (await ipinfo.lookupIp("102.91.47.115")).country;
+    const ipAddress = IP.address();
+    analytics.country = (await ipinfo.lookupIp(ipAddress)).country;
     analytics.userAgent = req.headers["user-agent"];
     analytics.referrer = req.get("Referrer");
     analytics.device = req.device.type;
