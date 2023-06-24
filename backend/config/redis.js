@@ -16,7 +16,7 @@ class Cache {
   async connect() {
     try {
       this.redis = await Redis.createClient({
-        url: `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}`,
+        url: `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}`,
       });
 
       this.redis.connect();
