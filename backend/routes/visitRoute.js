@@ -14,7 +14,6 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:shortId", async (req, res, next) => {
   try {
-    
     const shortId = req.params.shortId;
 
     const cacheKey = `Url:${shortId}`;
@@ -36,7 +35,7 @@ router.get("/:shortId", async (req, res, next) => {
     if (!cachedUrl) {
       console.log(url.redirectUrl);
       res.redirect("https://" + url.redirectUrl);
-      Cache.redis.setEx(cacheKey, 3 * 60, JSON.stringify(url.redirectUrl));
+      Cache.redis.setEx(cacheKey, 2 * 60, JSON.stringify(url.redirectUrl));
     }
 
     const analytics = {};

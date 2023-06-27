@@ -49,7 +49,7 @@ exports.createUrl = async (req, res, next) => {
     const urlExist = user.urls.find((url) => url.redirectUrl === redirectUrl);
 
     if (urlExist) {
-      return res.json({
+      return res.status(304).json({
         message: "URL already exist",
         urlId: urlExist._id,
         shortId: urlExist.shortId,
@@ -69,7 +69,7 @@ exports.createUrl = async (req, res, next) => {
     //if custom url is provided check if it exists in db and if it does throw error else add it to db
     if (customUrl) {
       if (await Url.findOne({ shortId: customUrl })) {
-        return res.json({ message: "Custom url already exists" });
+        return res.status(301).json({ message: "Custom url already exists" });
       }
       url.shortId = customUrl;
     } else {
@@ -123,14 +123,14 @@ exports.getUrls = async (req, res, next) => {
       per_page = 10,
     } = query;
 
-    // const cacheKey = `Urls:${userId}:${created_at}:${label}:${order}:${order_by}:${page}:${per_page}`;
+    const cacheKey = `Urls:${userId}:${created_at}:${label}:${order}:${order_by}:${page}:${per_page}`;
 
-    // const cachedUrls = await Cache.redis.get(cacheKey);
+    const cachedUrls = await Cache.redis.get(cacheKey);
 
-    // if (cachedUrls) {
-    //   // Cache hit
-    //   return res.json({ Urls: JSON.parse(cachedUrls) });
-    // }
+    if (cachedUrls) {
+      // Cache hit
+      return res.json({ Urls: JSON.parse(cachedUrls) });
+    }
 
     const findQuery = { userId: userId };
 
@@ -164,7 +164,7 @@ exports.getUrls = async (req, res, next) => {
       .skip(page)
       .limit(per_page);
 
-    // Cache.redis.setEx(cacheKey, 5 * 60, JSON.stringify(urls));
+    Cache.redis.setEx(cacheKey, 60, JSON.stringify(urls));
     res.json({ Urls: urls });
   } catch (err) {
     if (!err.statusCode) {
@@ -178,19 +178,19 @@ exports.getUrl = async (req, res, next) => {
   const userId = req.userId;
   const urlId = req.params.urlId;
   try {
-    // const cacheKey = `Url:${userId}:${urlId}`;
-    // const cachedUrl = await Cache.redis.get(cacheKey);
+    const cacheKey = `Url:${userId}:${urlId}`;
+    const cachedUrl = await Cache.redis.get(cacheKey);
 
-    // if (cachedUrl) {
-    //   return res.json({ url: JSON.parse(cachedUrl) });
-    // }
+    if (cachedUrl) {
+      return res.json({ url: JSON.parse(cachedUrl) });
+    }
 
     const url = await Url.findOne({ _id: urlId, userId: userId });
     if (!url) {
       return res.status(404).json({ message: "Url not found" });
-    }     
+    }
 
-    // Cache.redis.setEx(cacheKey, 3 * 60, JSON.stringify(url));
+    Cache.redis.setEx(cacheKey, 60, JSON.stringify(url));
 
     res.json({ url: url });
   } catch (err) {
@@ -207,7 +207,7 @@ exports.modifyUrl = async (req, res, next) => {
   try {
     const url = await Url.findOne({ _id: urlId, userId: userId });
     if (!url) {
-      return res.json({ message: "Url not found" });
+      return res.status(404).json({ message: "Url not found" });
     }
 
     const { redirectUrl, customUrl, generateQR, label } = req.body;
@@ -220,7 +220,7 @@ exports.modifyUrl = async (req, res, next) => {
     if (customUrl) {
       const customUrlExist = await Url.findOne({ shortId: customUrl });
       if (customUrlExist && customUrlExist._id.toString() !== urlId) {
-        return res.json({ message: "Custom url already exists" });
+        return res.status(304).json({ message: "Custom url already exists" });
       }
       url.shortId = customUrl;
 
@@ -244,7 +244,7 @@ exports.modifyUrl = async (req, res, next) => {
 
     await url.save();
 
-    res.json({
+    res.status(201).json({
       message: "Url Updated",
       urlId: url._id,
       shortId: url.shortId,
