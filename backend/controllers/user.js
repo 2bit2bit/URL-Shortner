@@ -89,7 +89,7 @@ exports.createUrl = async (req, res, next) => {
     user.urls.push(url);
     await user.save();
 
-    res.json({
+    res.status(201).json({
       message: "Url created",
       urlId: url._id,
       label: url.label,
@@ -187,8 +187,8 @@ exports.getUrl = async (req, res, next) => {
 
     const url = await Url.findOne({ _id: urlId, userId: userId });
     if (!url) {
-      return res.json({ message: "Url not found" });
-    }
+      return res.status(404).json({ message: "Url not found" });
+    }     
 
     // Cache.redis.setEx(cacheKey, 3 * 60, JSON.stringify(url));
 
@@ -266,7 +266,7 @@ exports.deleteUrl = async (req, res, next) => {
   try {
     const url = await Url.findOneAndDelete({ _id: urlId, userId: userId });
     if (!url) {
-      return res.json({ message: "Url not found" });
+      return res.status(404).json({ message: "Url not found" });
     }
 
     const user = await User.findById(userId);

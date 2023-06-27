@@ -44,7 +44,7 @@ exports.login = async (req, res, next) => {
 
     const user = await User.findOne({ email: email });
     if (!user) {
-      const error = new Error("Validation failed");
+      const error = new Error("Unauthorize");
       error.data = [{ msg: "Wrong email or password" }];
       error.statusCode = 401;
       throw error;
@@ -53,7 +53,7 @@ exports.login = async (req, res, next) => {
     const isEqual = await bcrypt.compare(password, user.password);
 
     if (!isEqual) {
-      const error = new Error("Validation failed");
+      const error = new Error("Unauthorize");
       error.data = [{ msg: "Wrong email or password" }];
       error.statusCode = 401;
       throw error;

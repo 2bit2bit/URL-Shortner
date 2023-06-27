@@ -5,6 +5,7 @@ require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 const device = require("express-device");
 const Cache = require("./config/redis");
+const rateLimit = require("express-rate-limit");
 
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scissors";
@@ -15,13 +16,23 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 const app = express();
 
 const authRoutes = require("./routes/auth");
 const isAuth = require("./middleware/is-auth");
 const userRoutes = require("./routes/user");
 const visitRoutes = require("./routes/visitRoute");
+const logger = require("./config/logger");
 
+app.use(limiter);
+app.use(logger);
 app.use(cors());
 app.use(express.json());
 app.use(device.capture());
@@ -33,7 +44,7 @@ app.use("/user", isAuth, userRoutes);
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
-  const message = error.message;
+  const message = error.message || "Internal server error";
   const data = error.data || null;
   res.status(status).json({ message: message, data: data });
 });
