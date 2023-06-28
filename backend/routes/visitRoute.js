@@ -20,8 +20,8 @@ router.get("/:shortId", async (req, res, next) => {
     const cachedUrl = await Cache.redis.get(cacheKey);
 
     if (cachedUrl) {
-      console.log("https:" + JSON.parse(cachedUrl));
-      res.redirect("https:" + JSON.parse(cachedUrl));
+      console.log(`https://${JSON.parse(cachedUrl)}`);
+      res.redirect(`https://${JSON.parse(cachedUrl)}`);
     }
 
     const url = await Url.findOne({ shortId: shortId });
@@ -33,8 +33,8 @@ router.get("/:shortId", async (req, res, next) => {
     }
 
     if (!cachedUrl) {
-      console.log(url.redirectUrl);
-      res.redirect("https://" + url.redirectUrl);
+      console.log(`https://${url.redirectUrl}`);
+      res.redirect(`https://${url.redirectUrl}`);
       Cache.redis.setEx(cacheKey, 2 * 60, JSON.stringify(url.redirectUrl));
     }
 
@@ -42,7 +42,6 @@ router.get("/:shortId", async (req, res, next) => {
     const ipAddress = IP.address();
     console.log(ipAddress);
     analytics.country = (await ipinfo.lookupIp(ipAddress)).country;
-    console.log(analytics.country);
     analytics.userAgent = req.headers["user-agent"];
     analytics.referrer = req.get("Referrer");
     analytics.device = req.device.type;
