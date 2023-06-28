@@ -13,7 +13,8 @@ body {
 }
 
 header {
-  background-color: #da6201;
+  background-color: #f907fc;
+  background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);
   color: whitesmoke;
   display: flex;
   justify-content: space-between;
@@ -55,34 +56,34 @@ header nav ul a {
 }
 
 header nav ul a:hover {
-  color: whitesmoke;
-  background-color: #a84c00;
+  color: #f907fc;
+  background-color: white;
   text-decoration: none;
 }
 
-.sign-up {
-  background-color: whitesmoke;
+/* .sign-up {
+  background-color: white;
   border-radius: 5px;
-  color: #da6201;
+  color: #f907fc;;
   padding: 0.5rem;
   margin: 0 0 0 4px;
   text-decoration: none;
   box-shadow: 0px 2px 2px 2px #0000000c;
   transition: 0.3s;
-}
+} */
 
-.sign-up:hover {
-  background-color: #a84c00;
+/* .sign-up:hover {
+  background-color: #f907fc;;
   border-radius: 0;
   color: whitesmoke;
   padding: 0.5rem;
   text-decoration: none;
   box-shadow: none;
-}
+} */
 
 .active {
-  background-color: #a84c00;
-  color: white;
+  background-color: white;
+  color: #f907fc;
   border-radius: 0;
   border-bottom: 1px solid white;
 }
@@ -120,7 +121,7 @@ main img {
   text-align: center;
 }
 
-.cta a.login {
+/* .cta a.login {
   color: #da6201;
   padding: 1.5rem;
   box-shadow: 0px 2px 2px 4px #0000001c;
@@ -130,9 +131,9 @@ main img {
   color: white;
   background-color: #da6201;
   padding: 1.5rem;
-}
+} */
 
-.cta a.sign-up {
+/* .cta a.sign-up {
   background-color: #da6201;
   color: white;
   padding: 1.5rem;
@@ -142,18 +143,19 @@ main img {
   background-color: white;
   color: #da6201;
   padding: 1.5rem;
-}
+} */
 
 main p {
-  border-right: 1px solid #ffd8b8;
-  border-left: 1px solid #ffd8b8;
+  border-right: 1px solid #05d6d9;
+  border-left: 1px solid #05d6d9;
   padding: 2rem;
   text-align: justify;
   margin: 1rem auto;
   color: rgb(53, 53, 53);
 }
 footer {
-  background-color: #da6201;
+  background-color: #f907fc;
+  background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);
   color: white;
   text-align: center;
   padding: 1rem;
@@ -170,4 +172,32 @@ footer a {
 footer a:hover {
   color: rgb(207, 207, 207);
   text-decoration: none;
+}
+
+#logoutBtnMobile,
+#logoutBtn {
+  color: white;
+  font-size: large;
+  margin: 0px;
+  background-color: #ffffff63;
+  border: none;
+}
+
+#logoutBtnMobile {
+  background-color: #f907fc;
+  background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);
+  box-shadow: 2px 2px 2px 2px #0000000e;
+}
+
+
+#logoutBtn:hover {
+  color: #f907fc;
+  background-color: white;
+  border: none;
+}
+
+#logoutBtnMobile:hover {
+  color: #f907fc;
+  background-color: white;
+  border: none;
 }

@@ -6,7 +6,7 @@ form {
 }
 
 #responseErr {
-    color: red;
+    color: #f907fc;
     visibility: hidden;
 }
 
@@ -27,7 +27,7 @@ form {
   border: none;
   font-size: medium;
   margin: 8px 0;
-  border: 1px solid #da630160;
+  border: 1px solid #05d6d960;
 }
 
 form button {
@@ -36,11 +36,11 @@ form button {
   font-size: larger;
   padding: 1rem;
   color: white;
-  background-color: #da6201;
+  background-color: #05d6d9;
   border: none;
   box-shadow: 0px 0px 5px #00000041;
 }
 
 form button:hover {
-  background-color: #a84c00;
+  background-color: #05d6d9;
 }

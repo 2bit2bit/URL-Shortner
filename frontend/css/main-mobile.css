@@ -46,7 +46,8 @@
 
   .mobile-nav_close:hover,
   .mobile-nav_close:active {
-    background-color: #da6201;
+    background-color: #f907fc;
+  background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);
   }
 
   .mobile-nav ul {
@@ -67,7 +68,7 @@
     width: 100%;
     display: block;
     background-color: rgba(0, 0, 0, 0);
-    color: #da6201;
+    color: #f907fc;
     text-decoration: none;
     font-size: larger;
     font-weight: 700;
@@ -78,13 +79,15 @@
 
   .mobile-nav ul li a:hover,
   .mobile-nav ul li a:active {
-    background-color: #da6201;
+    background-color: #f907fc;
+  background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);
     color: white;
     padding: 1rem;
   }
 
   .mobile-nav ul li .active {
-    background-color: #da6201;
+    background-color: #f907fc;
+  background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);
     color: white;
     border-radius: 0;
     border-bottom: 1px solid white;

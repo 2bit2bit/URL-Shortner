@@ -23,10 +23,16 @@ async function getUrlData() {
     const responseData = (await response.json()).url;
     console.log(responseData, responseStatus);
 
-    redirectUrl.setAttribute("value", responseData.redirectUrl) ;
-    customUrl.setAttribute("value", responseData.shortId)
-    label.setAttribute("value", responseData.label)
-    unshowLoading();
+    if (responseStatus === 404) {
+      window.location.replace(`./404.html`);
+    } else if (responseStatus == 200) {
+      redirectUrl.setAttribute("value", responseData.redirectUrl);
+      customUrl.setAttribute("value", responseData.shortId);
+      label.setAttribute("value", responseData.label);
+      unshowLoading();
+    } else {
+      window.location.replace(`./error.html`);
+    }
   } catch (err) {
     console.log(err);
   }
@@ -35,12 +41,12 @@ async function getUrlData() {
 updateBtn.addEventListener("click", (event) => {
   event.preventDefault();
   showLoading();
-  create(redirectUrl.value, customUrl.value, label.value, QRcode.value);
+  create(redirectUrl.value, customUrl.value, label.value, QRcode.checked);
 });
 
 async function create(redirectUrl, customUrl, label, generateQR) {
   const body = { redirectUrl, customUrl, label, generateQR };
-  console.log(body)
+  console.log(body);
   try {
     const response = await fetch(host + `/user/url/${urlId}`, {
       method: "PUT",
@@ -53,20 +59,25 @@ async function create(redirectUrl, customUrl, label, generateQR) {
 
     const responseStatus = response.status;
     const responseData = await response.json();
-    console.log(responseData, responseStatus);
 
-    if (responseStatus !== 200) {
-      responseErr.innerText = responseData.data[0].msg;
+    if (responseStatus !== 201 && responseStatus !== 200 && responseStatus !== 500) {
+      if (!responseData.data[0].msg) {
+        responseErr.innerText = responseData.message;
+      } else {
+        responseErr.innerText = responseData.data[0].msg;
+      }
       responseErr.style.visibility = "visible";
       unshowLoading();
-    } else {
+    } else if (responseStatus === 201 || responseStatus === 200) {
       responseErr.innerText = responseData.message;
       responseErr.style.color = "green";
       responseErr.style.visibility = "visible";
       setTimeout(() => {
         unshowLoading();
         window.location.replace(`./url.html?urlId=${responseData.urlId}`);
-      }, 2000);
+      }, 1000);
+    } else {
+      window.location.replace(`./error.html`);
     }
   } catch (err) {
     unshowLoading();

@@ -1,6 +1,8 @@
 .create-url {
-  background-color: #da6201;
+  background-color: #f907fc;
+  background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);
   color: white;
+  box-shadow: 0px 2px 5px #0000003b;
   text-decoration: none;
   padding: 1rem 2rem;
   margin: 2rem 0;
@@ -11,8 +13,11 @@
 
 .create-url:hover,
 .create-url:active {
-  background-color: #a84c00;
-  box-shadow: 0px 2px 5px #0000003b;
+  background-color: white;
+  background-image: linear-gradient(315deg, #ffffff 0%, #ffffff 74%);
+  box-shadow: 0px 2px 5px #05d5d969;
+  
+  color: #292929;
 }
 
 .search-filter {
@@ -36,14 +41,14 @@
   border: none;
   font-size: medium;
   margin: 8px 0;
-  border: 1px solid #da630160;
+  border: 1px solid #f907fc60;
 }
 #search-btn {
   padding: 1rem 1.5rem;
   border: none;
   box-shadow: 0px 0px 5px #00000011;
   border-radius: 8px;
-  border: 1px solid #da6201;
+  border: 1px solid #f907fc;
   font-weight: bold;
 }
 
@@ -53,8 +58,8 @@ form button:hover {
 
 #urlList {
   list-style-type: none;
-  border-right: 1px solid #ffd8b8;
-  border-left: 1px solid #ffd8b8;
+  border-right: 1px solid #05d6d9;
+  border-left: 1px solid #05d6d9;
   padding: 1rem;
 }
 
@@ -72,7 +77,7 @@ form button:hover {
 
 #urlList li:hover,
 #urlList li:active {
-  box-shadow: 0px 0px 5px #da6201;
+  box-shadow: 0px 0px 5px #05d6d9;
 }
 
 #urlList li h4,

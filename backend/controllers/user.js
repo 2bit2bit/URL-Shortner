@@ -49,7 +49,7 @@ exports.createUrl = async (req, res, next) => {
     const urlExist = user.urls.find((url) => url.redirectUrl === redirectUrl);
 
     if (urlExist) {
-      return res.status(304).json({
+      return res.status(200).json({
         message: "URL already exist",
         urlId: urlExist._id,
         shortId: urlExist.shortId,
@@ -69,7 +69,7 @@ exports.createUrl = async (req, res, next) => {
     //if custom url is provided check if it exists in db and if it does throw error else add it to db
     if (customUrl) {
       if (await Url.findOne({ shortId: customUrl })) {
-        return res.status(301).json({ message: "Custom url already exists" });
+        return res.status(422).json({ message: "Custom url already exists" });
       }
       url.shortId = customUrl;
     } else {
@@ -99,7 +99,7 @@ exports.createUrl = async (req, res, next) => {
     });
   } catch (err) {
     if (err.code == "ENOTFOUND") {
-      err.data = [{ msg: "please enter a invalid url" }];
+      err.data = [{ msg: "Url dosen't exist, please enter a invalid url" }];
       err.statusCode = 404;
     }
     if (!err.statusCode) {
@@ -164,7 +164,7 @@ exports.getUrls = async (req, res, next) => {
       .skip(page)
       .limit(per_page);
 
-    Cache.redis.setEx(cacheKey, 60, JSON.stringify(urls));
+    Cache.redis.setEx(cacheKey, 30, JSON.stringify(urls));
     res.json({ Urls: urls });
   } catch (err) {
     if (!err.statusCode) {
@@ -190,7 +190,7 @@ exports.getUrl = async (req, res, next) => {
       return res.status(404).json({ message: "Url not found" });
     }
 
-    Cache.redis.setEx(cacheKey, 60, JSON.stringify(url));
+    Cache.redis.setEx(cacheKey, 30, JSON.stringify(url));
 
     res.json({ url: url });
   } catch (err) {
@@ -205,6 +205,13 @@ exports.modifyUrl = async (req, res, next) => {
   const userId = req.userId;
   const urlId = req.params.urlId;
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error("Validation failed");
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
     const url = await Url.findOne({ _id: urlId, userId: userId });
     if (!url) {
       return res.status(404).json({ message: "Url not found" });
@@ -217,10 +224,27 @@ exports.modifyUrl = async (req, res, next) => {
       url.redirectUrl = redirectUrl;
     }
 
+    const user = await User.findById(userId).populate("urls");
+
+    const urlExist = user.urls.find(
+      (url) => url.redirectUrl === redirectUrl && url._id.toString() !== urlId
+    );
+
+    if (urlExist) {
+      return res.status(200).json({
+        message: "URL already exist",
+        urlId: urlExist._id,
+        shortId: urlExist.shortId,
+        qrCode: urlExist.qrCode,
+        redirectUrl: urlExist.redirectUrl,
+        label: urlExist.label,
+      });
+    }
+
     if (customUrl) {
       const customUrlExist = await Url.findOne({ shortId: customUrl });
       if (customUrlExist && customUrlExist._id.toString() !== urlId) {
-        return res.status(304).json({ message: "Custom url already exists" });
+        return res.status(422).json({ message: "Custom url already exists" });
       }
       url.shortId = customUrl;
 
@@ -242,6 +266,8 @@ exports.modifyUrl = async (req, res, next) => {
       url.label = label;
     }
 
+    const cacheKey = `Url:${userId}:${urlId}`;
+    Cache.redis.del(cacheKey);
     await url.save();
 
     res.status(201).json({
@@ -263,6 +289,7 @@ exports.modifyUrl = async (req, res, next) => {
 exports.deleteUrl = async (req, res, next) => {
   const userId = req.userId;
   const urlId = req.params.urlId;
+
   try {
     const url = await Url.findOneAndDelete({ _id: urlId, userId: userId });
     if (!url) {
@@ -277,6 +304,10 @@ exports.deleteUrl = async (req, res, next) => {
         "URL-Shortner/" + url.qrCode.split("/")[8].split(".")[0]
       );
     }
+
+    const cacheKey = `Urls:${userId}:undefined:undefined:asc:created_at:0:10`;
+    Cache.redis.del(cacheKey);
+
     await user.save();
     res.json({ message: "Url deleted" });
   } catch (err) {

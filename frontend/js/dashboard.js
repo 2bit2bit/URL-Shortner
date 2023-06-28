@@ -38,8 +38,8 @@ function createUrlElement(url) {
   const label = document.createElement("h4");
   label.innerHTML = `${url.label}`;
 
-  const shortUrl = document.createElement("h4");
-  shortUrl.innerHTML = `${host}/${url.shortId}`;
+  const shortUrl = document.createElement("h4");  
+  shortUrl.innerHTML = `${host.split('.')[1]}.${host.split('.')[2]}/${url.shortId}`;
 
   const date = document.createElement("h5");
   date.innerHTML = `${url.createdAt.split("T")[0]}`;
