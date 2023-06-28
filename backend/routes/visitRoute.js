@@ -40,7 +40,9 @@ router.get("/:shortId", async (req, res, next) => {
 
     const analytics = {};
     const ipAddress = IP.address();
+    console.log(ipAddress);
     analytics.country = (await ipinfo.lookupIp(ipAddress)).country;
+    console.log(analytics.country);
     analytics.userAgent = req.headers["user-agent"];
     analytics.referrer = req.get("Referrer");
     analytics.device = req.device.type;
