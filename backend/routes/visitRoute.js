@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Url = require("../models/url");
+const requestIp = require("request-ip");
 const { IPinfoWrapper } = require("node-ipinfo");
-const IP = require("ip");
 const Cache = require("../config/redis");
 require("dotenv").config();
 
@@ -12,7 +12,7 @@ router.get("/", async (req, res, next) => {
   res.redirect("https://url-frontend-xfel.onrender.com");
 });
 
-router.get("/:shortId", async (req, res, next) => {
+router.get("/:shortId", requestIp.mw(), async (req, res, next) => {
   try {
     const shortId = req.params.shortId;
 
@@ -39,8 +39,7 @@ router.get("/:shortId", async (req, res, next) => {
     }
 
     const analytics = {};
-    const ipAddress = IP.address();
-    console.log(ipAddress);
+    const ipAddress = req.clientIp;
     analytics.country = (await ipinfo.lookupIp(ipAddress)).country;
     analytics.userAgent = req.headers["user-agent"];
     analytics.referrer = req.get("Referrer");
