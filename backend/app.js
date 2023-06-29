@@ -31,6 +31,7 @@ const userRoutes = require("./routes/user");
 const visitRoutes = require("./routes/visitRoute");
 const logger = require("./config/logger");
 
+app.options('*', cors())
 app.use(cors());
 app.use(limiter);
 app.use(logger);
