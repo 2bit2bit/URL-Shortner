@@ -48,10 +48,14 @@ router.get("/:shortId", requestIp.mw(), async (req, res, next) => {
     url.analytics.push(analytics);
     url.save();
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
+    if (err.statusCode == 401) {
+      res.redirect("https://url-frontend-xfel.onrender.com/not-found.html");
+    } else {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
     }
-    next(err);
   }
 });
 
