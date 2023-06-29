@@ -11,6 +11,9 @@ This repo consist of:
 ## Base URL
 - https://scly.live
 
+## Backend API Documentation
+- https://2bit2bit.stoplight.io/docs/scissors/branches/main/ge8qvyaii4v6b-scissors-url-shortner
+
 # Features
 - URL Shortening:
 Scissor allows users to shorten URLs by pasting a long URL into the Scissor platform and a shorter URL gets automatically generated. The shortened URL is designed to be as short as possible, making it easy to share on social media or through other channels.

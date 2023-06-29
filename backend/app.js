@@ -31,12 +31,12 @@ const userRoutes = require("./routes/user");
 const visitRoutes = require("./routes/visitRoute");
 const logger = require("./config/logger");
 
+app.use(cors());
 app.use(limiter);
 app.use(logger);
-app.use(cors());
 app.use(express.json());
 app.use(device.capture());
-
+app.options('*', cors()) 
 app.use("/", visitRoutes);
 app.use("/auth", authRoutes);
 app.use("/user", isAuth, userRoutes);
